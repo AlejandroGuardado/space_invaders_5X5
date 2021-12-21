@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7c5aa56089447469f9bd60596c8858, type: 3}
+  m_Name: TransitionData
+  m_EditorClassIdentifier: 
+  splashScreenTransitionTime: 1
+  splashScreenHoldTime: 3
+  menuDelayTime: 0.5
+  menuTransitionTime: 0.5
+  creditsDelayTime: 0.25
+  creditsTransitionTime: 0.5
+  creditsScrollDelayTime: 0.5
