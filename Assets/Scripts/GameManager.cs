@@ -12,10 +12,13 @@ public class GameManager : GameFSM {
         #if UNITY_EDITOR || DEBUG
 
         switch (skip) {
-            case Skip.Splash:
+            case Skip.ToMenu:
                 Init(menuScreen);
                 break;
-            case Skip.Menu:
+            case Skip.ToCredits:
+                Init(creditsScreen);
+                break;
+            case Skip.ToGame:
                 //break;
             case Skip.None:
             default:
@@ -52,7 +55,8 @@ public class GameManager : GameFSM {
 
     public enum Skip {
         None,
-        Splash,
-        Menu
+        ToMenu,
+        ToCredits,
+        ToGame
     }
 }

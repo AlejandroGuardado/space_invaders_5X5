@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SplashScreen : GameScreen{
     public GameObject canvas;
-    public TransitionManager transitionManager;
     public TransitionData transitionData;
     public UnityEngine.Events.UnityEvent OnSplashFinish;
 
@@ -13,10 +12,10 @@ public class SplashScreen : GameScreen{
     }
 
     public override IEnumerator OnEnter() {
-        transitionManager.FadeInImmediatly();
-        transitionManager.CutOutImmediatly();
+        TransitionManager.Instance.FadeInImmediatly();
+        TransitionManager.Instance.CutOutImmediatly();
         canvas.SetActive(true);
-        transitionManager.FadeOut(transitionData.splashScreenTransitionTime);
+        TransitionManager.Instance.FadeOut(transitionData.splashScreenTransitionTime);
         yield return new WaitForSeconds(transitionData.splashScreenTransitionTime + transitionData.splashScreenHoldTime);
         if (OnSplashFinish != null) {
             OnSplashFinish.Invoke();
@@ -29,7 +28,7 @@ public class SplashScreen : GameScreen{
 
     public override IEnumerator OnExit() {
         float wait = transitionData.splashScreenTransitionTime;
-        transitionManager.FadeIn(wait);
+        TransitionManager.Instance.FadeIn(wait);
         yield return new WaitForSeconds(wait);
         canvas.SetActive(false);
     }

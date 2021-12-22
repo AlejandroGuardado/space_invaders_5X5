@@ -7,7 +7,18 @@ public class TransitionManager : MonoBehaviour{
     public Transition FadeTransition;
     public Transition CutTransition;
 
+    private static TransitionManager _manager;
+    public static TransitionManager Instance {
+        get { return _manager; }
+        private set { 
+            if(_manager == null) {
+                _manager = value;
+            } 
+        }
+    }
+
     private void Awake() {
+        Instance = this;
         canvas.SetActive(true);
     }
 

@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class MenuScreen : GameScreen{
     public GameObject canvas;
     public UnityEngine.UI.Button creditsButton;
-    public TransitionManager transitionManager;
     public TransitionData transitionData;
 
     private void Awake() {
@@ -14,10 +13,10 @@ public class MenuScreen : GameScreen{
     }
 
     public override IEnumerator OnEnter() {
-        transitionManager.FadeOutImmediatly();
-        transitionManager.CutInImmediatly();
+        TransitionManager.Instance.FadeOutImmediatly();
+        TransitionManager.Instance.CutInImmediatly();
         yield return new WaitForSeconds(transitionData.menuDelayTime);
-        transitionManager.CutOut(transitionData.menuTransitionTime);
+        TransitionManager.Instance.CutOut(transitionData.menuTransitionTime);
         yield return new WaitForSeconds(transitionData.menuTransitionTime);
         canvas.SetActive(true);
         creditsButton.interactable = true;
@@ -30,7 +29,7 @@ public class MenuScreen : GameScreen{
     public override IEnumerator OnExit() {
         float wait = transitionData.menuTransitionTime;
         creditsButton.interactable = false;
-        transitionManager.FadeIn(wait);
+        TransitionManager.Instance.FadeIn(wait);
         yield return new WaitForSeconds(wait);
         canvas.SetActive(false);
     }

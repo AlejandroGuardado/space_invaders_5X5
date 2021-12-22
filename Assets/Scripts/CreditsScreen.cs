@@ -6,7 +6,6 @@ public class CreditsScreen : GameScreen{
     public GameObject canvas;
     public UnityEngine.UI.Text text;
     public UnityEngine.UI.Button backButton;
-    public TransitionManager transitionManager;
     public TransitionData transitionData;
 
     public float scrollSpeed;
@@ -28,13 +27,13 @@ public class CreditsScreen : GameScreen{
     }
 
     public override IEnumerator OnEnter() {
-        transitionManager.FadeInImmediatly();
+        TransitionManager.Instance.FadeInImmediatly();
         yield return new WaitForSeconds(transitionData.creditsDelayTime);
         scrollPosition = scrollInitPosition;
         text.rectTransform.localPosition = new Vector3(text.rectTransform.localPosition.x, scrollPosition, 0);
         canvas.SetActive(true);
         backButton.gameObject.SetActive(false);
-        transitionManager.FadeOut(transitionData.creditsTransitionTime);
+        TransitionManager.Instance.FadeOut(transitionData.creditsTransitionTime);
         yield return new WaitForSeconds(transitionData.creditsTransitionTime + transitionData.creditsScrollDelayTime);
         doScroll = true;
         backButton.gameObject.SetActive(true);
@@ -55,7 +54,7 @@ public class CreditsScreen : GameScreen{
         float wait = transitionData.creditsTransitionTime;
         doScroll = false;
         backButton.interactable = false;
-        transitionManager.FadeIn(wait);
+        TransitionManager.Instance.FadeIn(wait);
         yield return new WaitForSeconds(wait);
         canvas.SetActive(false);
     }
