@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreditsManager : MonoBehaviour{
+public class CreditsScreen : GameScreen{
     public GameObject canvas;
     public UnityEngine.UI.Text text;
     public UnityEngine.UI.Button backButton;
@@ -21,7 +21,14 @@ public class CreditsManager : MonoBehaviour{
         doScroll = false;
     }
 
-    public IEnumerator ShowCredits() {
+    public IEnumerator ResetScroll() {
+        scrollPosition = scrollInitPosition;
+        text.rectTransform.localPosition = new Vector3(text.rectTransform.localPosition.x, scrollPosition, 0);
+        yield return new WaitForSeconds(transitionData.creditsScrollDelayTime);
+        doScroll = true;
+    }
+
+    public override IEnumerator OnEnter() {
         transitionManager.FadeInImmediatly();
         yield return new WaitForSeconds(transitionData.creditsDelayTime);
         scrollPosition = scrollInitPosition;
@@ -35,36 +42,26 @@ public class CreditsManager : MonoBehaviour{
         backButton.interactable = true;
     }
 
-    public void UpdateCredits() {
+    public override void OnUpdate() {
         if (!doScroll) return;
         scrollPosition += scrollSpeed * Time.deltaTime;
         text.rectTransform.localPosition = new Vector3(text.rectTransform.localPosition.x, scrollPosition, 0);
-        if(scrollPosition >= scrollEndPosition) {
+        if (scrollPosition >= scrollEndPosition) {
             doScroll = false;
             StartCoroutine(ResetScroll());
         }
     }
 
-    public IEnumerator ResetScroll() {
-        scrollPosition = scrollInitPosition;
-        text.rectTransform.localPosition = new Vector3(text.rectTransform.localPosition.x, scrollPosition, 0);
-        yield return new WaitForSeconds(transitionData.creditsScrollDelayTime);
-        doScroll = true;
-    }
-
-    public void OnTransitionToMenu() {
-        StopAllCoroutines();
-        StartCoroutine(TransitionToMenu());
-    }
-
-    private IEnumerator TransitionToMenu() {
+    public override IEnumerator OnExit() {
+        float wait = transitionData.creditsTransitionTime;
         doScroll = false;
         backButton.interactable = false;
-        transitionManager.FadeIn(transitionData.creditsTransitionTime);
-        yield return new WaitForSeconds(transitionData.creditsTransitionTime);
+        transitionManager.FadeIn(wait);
+        yield return new WaitForSeconds(wait);
         canvas.SetActive(false);
-        if (OnCreditsToMenuTransition != null) {
-            OnCreditsToMenuTransition.Invoke();
-        }
+    }
+
+    public override float GetExitTime() {
+        return transitionData.creditsTransitionTime;
     }
 }

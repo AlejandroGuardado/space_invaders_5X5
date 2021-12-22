@@ -2,54 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour{
-    public SplashScreenManager splashScreenManager;
-    public MenuManager menuManager;
-    public CreditsManager creditsManager;
-    private GameState state;
+public class GameManager : GameFSM {
+    public SplashScreen splashScreen;
+    public MenuScreen menuScreen;
+    public CreditsScreen creditsScreen;
+    public Skip skip;    
 
     void Start(){
-        state = GameState.Splash;
-        splashScreenManager.StartSplashScreen();
+        #if UNITY_EDITOR || DEBUG
+
+        switch (skip) {
+            case Skip.Splash:
+                Init(menuScreen);
+                break;
+            case Skip.Menu:
+                //break;
+            case Skip.None:
+            default:
+                Init(splashScreen);
+                break;
+        }
+
+        #else
+
+        Init(splashScreen);
+
+        #endif
     }
 
     void Update(){
-        switch (state) {
-            case GameState.Menu:
-                menuManager.UpdateMenu();
-                break;
-            case GameState.Credits:
-                creditsManager.UpdateCredits();
-                break;
-            default:
-                break;
-        }
+        UpdateScreen();
     }
 
     public void OnSplashFinish() {
-        ShowMenu();
+        ChangeScreen(menuScreen);
     }
 
     public void OnMenuToCreditsTransition() {
-        state = GameState.Credits;
-        StartCoroutine(creditsManager.ShowCredits());
+        ChangeScreen(creditsScreen);
     }
 
     public void OnCreditsToMenuTransition() {
-        ShowMenu();
+        ChangeScreen(menuScreen);
     }
 
-    private void ShowMenu() {
-        state = GameState.Menu;
-        StartCoroutine(menuManager.ShowMenu());
+    public void OnLevelSelect(int levelIndex) {
+        Debug.Log(levelIndex - 1);
     }
 
-    private enum GameState {
+    public enum Skip {
+        None,
         Splash,
-        Menu,
-        Credits,
-        Session,
-        Victory,
-        GameOver
+        Menu
     }
 }
