@@ -8,7 +8,6 @@ public class CreditsScreen : GameScreen{
     public UnityEngine.UI.Button backButton;
     public TransitionManager transitionManager;
     public TransitionData transitionData;
-    public UnityEngine.Events.UnityEvent OnCreditsToMenuTransition;
 
     public float scrollSpeed;
     public float scrollInitPosition;

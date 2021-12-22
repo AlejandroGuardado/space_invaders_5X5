@@ -9,28 +9,9 @@ public class MenuScreen : GameScreen{
     public TransitionManager transitionManager;
     public TransitionData transitionData;
 
-    public UnityEvent OnMenuToCreditsTransition;
-    public UnityEvent OnMenuToSessionTransition;
-
-
     private void Awake() {
         canvas.SetActive(false);
     }
-
-    /*public void OnCreditsSelect() {
-        StartCoroutine(TransitionToCredits());
-    }*/
-
-    /*public void OnLevelSelect(int levelIndex) {
-        Debug.Log(levelIndex);
-    }*/
-
-    /*public IEnumerator TransitionToCredits() {
-        
-        //if (OnMenuToCreditsTransition != null) {
-        //    OnMenuToCreditsTransition.Invoke();
-        //}
-    }*/
 
     public override IEnumerator OnEnter() {
         transitionManager.FadeOutImmediatly();
