@@ -4,16 +4,10 @@ using UnityEngine;
 
 [Serializable]
 public class LevelLine{
-    public int numberEnemies;
-    public LevelLineSpacing spacing;
-    public float marginLeft;
-    public float marginRight;
-}
+    public List<float> xPositions;
+    public int NumberSpots { get { return xPositions.Count; } }
 
-public enum LevelLineSpacing {
-    Start,
-    End,
-    Center,
-    SpaceBetween,
-    SpaceAround
+    public LevelLine() {
+        xPositions = new List<float>();
+    }
 }
