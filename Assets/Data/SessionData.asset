@@ -18,6 +18,7 @@ MonoBehaviour:
   gameOverPosition: -3.35
   bonusPosition: 0
   bonusMultiplier: 3
+  sessionOverDelay: 1
   gridStartPosition: 2
   gridWidth: 10
   gridLineHeight: 1
