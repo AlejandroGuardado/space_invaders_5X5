@@ -19,13 +19,6 @@ public class CreditsScreen : GameScreen{
         doScroll = false;
     }
 
-    public IEnumerator ResetScroll() {
-        scrollPosition = scrollInitPosition;
-        text.rectTransform.localPosition = new Vector3(text.rectTransform.localPosition.x, scrollPosition, 0);
-        yield return new WaitForSeconds(transitionData.creditsScrollDelayTime);
-        doScroll = true;
-    }
-
     public override IEnumerator OnEnter() {
         TransitionManager.Instance.FadeInImmediatly();
         TransitionManager.Instance.CutOutImmediatly();
@@ -62,5 +55,12 @@ public class CreditsScreen : GameScreen{
 
     public override float GetExitTime() {
         return transitionData.creditsTransitionTime;
+    }
+
+    private IEnumerator ResetScroll() {
+        scrollPosition = scrollInitPosition;
+        text.rectTransform.localPosition = new Vector3(text.rectTransform.localPosition.x, scrollPosition, 0);
+        yield return new WaitForSeconds(transitionData.creditsScrollDelayTime);
+        doScroll = true;
     }
 }
