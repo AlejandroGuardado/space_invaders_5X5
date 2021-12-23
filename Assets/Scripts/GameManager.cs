@@ -52,6 +52,7 @@ public class GameManager : GameFSM {
     }
 
     public void OnLevelSelect(int levelIndex) {
+        sessionScreen.SetLevelIndex(levelIndex);
         ChangeScreen(sessionScreen);
     }
 
