@@ -14,7 +14,5 @@ public class SessionData : ScriptableObject{
     public float sessionOverDelay;
     [Header("Grid")]
     public float gridStartPosition;
-    public float gridWidth;
     public float gridLineHeight;
-    public float gridUnitWidth;
 }
