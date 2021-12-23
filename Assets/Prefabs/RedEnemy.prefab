@@ -102,6 +102,7 @@ MonoBehaviour:
   sprite: {fileID: 3358440215583514812}
   dissolver: {fileID: -8689534069083061364}
   health: 3
+  points: 3
 --- !u!114 &-8689534069083061364
 MonoBehaviour:
   m_ObjectHideFlags: 0

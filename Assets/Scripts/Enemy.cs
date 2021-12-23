@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Enemy : GameEntity {
     public GameEntityDissolver dissolver;
-    [Range(1,3)]
+    [Range(1,10)]
     [SerializeField]
     private int health;
+    [Range(1, 10)]
+    [SerializeField]
+    private int points;
     public bool IsAlive { get { return currentHealth > 0; } }
     
     private int currentHealth;
