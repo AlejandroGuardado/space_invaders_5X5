@@ -6,6 +6,7 @@ public class GameManager : GameFSM {
     public SplashScreen splashScreen;
     public MenuScreen menuScreen;
     public CreditsScreen creditsScreen;
+    public SessionScreen sessionScreen;
     public Skip skip;    
 
     void Start(){
@@ -18,8 +19,9 @@ public class GameManager : GameFSM {
             case Skip.ToCredits:
                 Init(creditsScreen);
                 break;
-            case Skip.ToGame:
-                //break;
+            case Skip.ToSession:
+                Init(sessionScreen);
+                break;
             case Skip.None:
             default:
                 Init(splashScreen);
@@ -50,13 +52,13 @@ public class GameManager : GameFSM {
     }
 
     public void OnLevelSelect(int levelIndex) {
-        Debug.Log(levelIndex - 1);
+        ChangeScreen(sessionScreen);
     }
 
     public enum Skip {
         None,
         ToMenu,
         ToCredits,
-        ToGame
+        ToSession
     }
 }
