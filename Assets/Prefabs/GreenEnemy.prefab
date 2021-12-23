@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8408980899122190572}
   - component: {fileID: 8408980899122190573}
   - component: {fileID: -8265445518171044}
+  - component: {fileID: 2238114172070630001}
   m_Layer: 0
   m_Name: GreenEnemy
   m_TagString: Untagged
@@ -97,4 +98,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 8408980899122190573}
+  dissolver: {fileID: 2238114172070630001}
   health: 1
+--- !u!114 &2238114172070630001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8408980899122190574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a956796ff92cf42b12f3ff1301c41b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: -8265445518171044}
+  dissolveTime: 0.5
