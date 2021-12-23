@@ -45,6 +45,7 @@ public class CreditsScreen : GameScreen{
     }
 
     public override IEnumerator OnExit() {
+        StopAllCoroutines();
         float wait = transitionData.creditsTransitionTime;
         doScroll = false;
         backButton.interactable = false;
