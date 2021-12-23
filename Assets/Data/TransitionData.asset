@@ -19,3 +19,5 @@ MonoBehaviour:
   creditsDelayTime: 0.25
   creditsTransitionTime: 0.5
   creditsScrollDelayTime: 0.5
+  sessionDelayTime: 0.5
+  sessionTransitionTime: 1

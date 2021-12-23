@@ -11,4 +11,6 @@ public class TransitionData : ScriptableObject{
     public float creditsDelayTime;
     public float creditsTransitionTime;
     public float creditsScrollDelayTime;
+    public float sessionDelayTime;
+    public float sessionTransitionTime;
 }
