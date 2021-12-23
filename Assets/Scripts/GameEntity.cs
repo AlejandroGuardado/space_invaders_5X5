@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GameEntity : MonoBehaviour{
     public SpriteRenderer sprite;
-
-    public bool Active { get; private set; }
+    public bool Active { get; private set; }    
 
     public virtual void Activate() {
         sprite.enabled = true;
@@ -15,7 +14,7 @@ public class GameEntity : MonoBehaviour{
         sprite.enabled = false;
     }
 
-    public void Spawn(Vector2 position) {
+    public virtual void Spawn(Vector2 position) {
         transform.position = position;
         Activate();
     }
