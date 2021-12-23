@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class MenuScreen : GameScreen{
     public GameObject canvas;
@@ -29,7 +28,7 @@ public class MenuScreen : GameScreen{
     public override IEnumerator OnExit() {
         float wait = transitionData.menuTransitionTime;
         creditsButton.interactable = false;
-        TransitionManager.Instance.FadeIn(wait);
+        TransitionManager.Instance.CutIn(wait);
         yield return new WaitForSeconds(wait);
         canvas.SetActive(false);
     }

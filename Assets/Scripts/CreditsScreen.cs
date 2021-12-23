@@ -28,6 +28,7 @@ public class CreditsScreen : GameScreen{
 
     public override IEnumerator OnEnter() {
         TransitionManager.Instance.FadeInImmediatly();
+        TransitionManager.Instance.CutOutImmediatly();
         yield return new WaitForSeconds(transitionData.creditsDelayTime);
         scrollPosition = scrollInitPosition;
         text.rectTransform.localPosition = new Vector3(text.rectTransform.localPosition.x, scrollPosition, 0);
