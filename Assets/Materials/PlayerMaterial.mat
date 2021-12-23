@@ -71,7 +71,7 @@ Material:
     - _Disintegrate: 1
     - _Dissolve: 0
     - _DissolveBorder: 1
-    - _DissolveBorderCutoff: 0.2
+    - _DissolveBorderCutoff: 0.075
     - _DissolveFactor: 0
     - _DstBlend: 0
     - _EnableExternalAlpha: 0
