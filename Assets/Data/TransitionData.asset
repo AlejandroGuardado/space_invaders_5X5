@@ -21,3 +21,4 @@ MonoBehaviour:
   creditsScrollDelayTime: 0.5
   sessionDelayTime: 0.5
   sessionTransitionTime: 1
+  gameoverTransitionTime: 1
