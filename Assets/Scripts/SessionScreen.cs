@@ -24,6 +24,9 @@ public class SessionScreen : GameScreen{
     private int levelIndex;
     private LevelData levelData;
     public int Score {  get; private set; }
+    public int LevelIndex { get { return levelIndex; } }
+    public int LevelIndex_OneBased { get { return levelIndex + 1; } }
+    public bool HasNextLevel { get { return LevelIndex_OneBased < sessionData.levels.Length; } }
     private List<LevelSpot> grid;
     private SessionState state;
 
@@ -129,7 +132,6 @@ public class SessionScreen : GameScreen{
         if(OnVictory != null) {
             OnVictory.Invoke();
         }
-        Debug.Log("Victory");
     }
 
     private IEnumerator Defeat() {
@@ -139,13 +141,11 @@ public class SessionScreen : GameScreen{
         if (OnDefeat != null) {
             OnDefeat.Invoke();
         }
-        Debug.Log("Defeat");
     }
 
     private void LoadLevel() {
         if (levelIndex < 0 || levelIndex > sessionData.levels?.Length - 1) {
-            //Converted back to one-based
-            Debug.LogError($"Level {++levelIndex} was not found");
+            Debug.LogError($"Level {LevelIndex_OneBased} was not found");
             return;
         }
         levelData = sessionData.levels[levelIndex];
@@ -296,7 +296,11 @@ public class SessionScreen : GameScreen{
     }
 
     private void UpdateScoreText() {
-        scoreText.text = string.Format("{0:00000000}", Score);
+        UpdateScoreText(scoreText, Score);
+    }
+
+    public static void UpdateScoreText(Text scoreText, float score) {
+        scoreText.text = string.Format("{0:00000000}", score);
     }
 
     private enum SessionState {
