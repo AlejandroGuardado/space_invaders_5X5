@@ -50,7 +50,7 @@ public class Player : GameEntity{
         transform.position = position;
     }
 
-    private void Fire() {
+    public void Fire() {
         bool fire = weapons.Fire((Vector2)transform.position + weaponFireOffset, out float cooldown);
         if (fire && OnWeaponFired != null) {
             OnWeaponFired.Invoke(cooldown);
@@ -76,6 +76,10 @@ public class Player : GameEntity{
     public void Kill() {
         RemoveControl();
         StartCoroutine(OnKill());
+    }
+
+    public void OnMove(float move) {
+        this.move = move;
     }
 
     private IEnumerator OnKill() {
