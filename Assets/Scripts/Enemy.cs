@@ -29,12 +29,12 @@ public class Enemy : GameEntity {
         dissolver.Clear();
     }
 
-    private void Hit() {
-        //PFX Hit
+    private void Hit(Vector2 position) {
+        PFXManager.Instance.EmitHit(position);
     }
 
     public void Kill() {
-        //PFX Explosion
+        PFXManager.Instance.EmitHit(transform.position);
         StartCoroutine(OnKill());
     }
 
@@ -48,11 +48,12 @@ public class Enemy : GameEntity {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (IsAlive) {
             currentHealth--;
+            Vector2 hitpoint = collision.ClosestPoint(transform.position);
             if (!IsAlive) {
                 Kill();
             }
             else {
-                Hit();
+                Hit(hitpoint);
             }
         }
     }
