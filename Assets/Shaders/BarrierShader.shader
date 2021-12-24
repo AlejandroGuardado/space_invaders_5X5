@@ -46,7 +46,6 @@ Shader "SpaceInvaders/BarrierShader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             fixed4  _NearColor;
-            fixed _ShowDistance;
             fixed _NearColorFactor;
             fixed _NearAlphaFactor;
 
@@ -56,11 +55,13 @@ Shader "SpaceInvaders/BarrierShader"
             UNITY_DEFINE_INSTANCED_PROP(fixed4, unity_SpriteRendererColorArray)
             UNITY_DEFINE_INSTANCED_PROP(fixed2, unity_SpriteFlipArray)
             UNITY_DEFINE_INSTANCED_PROP(float4, _Position)
+            UNITY_DEFINE_INSTANCED_PROP(fixed, _ShowDistance)
             UNITY_INSTANCING_BUFFER_END(PerDrawSprite)
 
             #define _RendererColor  UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, unity_SpriteRendererColorArray)
             #define _Flip  UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, unity_SpriteFlipArray)
             #define _Position  UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, _Position)
+            #define _ShowDistance  UNITY_ACCESS_INSTANCED_PROP(PerDrawSprite, _ShowDistance)
 
             #endif
 
@@ -69,6 +70,7 @@ Shader "SpaceInvaders/BarrierShader"
             fixed4 _RendererColor;
             fixed2 _Flip;
             float4 _Position;
+            fixed _ShowDistance;
 
             #endif
 

@@ -265,7 +265,13 @@ public class SessionScreen : GameScreen{
         StopCoroutine(HideReloadLabel(cooldown));
         reloadCanvas.SetActive(true);
         StartCoroutine(HideReloadLabel(cooldown));
+
+        
         fireButton.Fill(cooldown);
+        for (int i = 0; i < barriers.Length; i++) {
+            barriers[i].Shockwave(sessionData.playerFireShockwaveTime);
+        }
+
         IEnumerator HideReloadLabel(float cooldown) {
             yield return new WaitForSeconds(cooldown);
             reloadCanvas.SetActive(false);
