@@ -10,10 +10,11 @@ public class SessionData : ScriptableObject{
     public float enemySpawnPosition;
     public float gameOverPosition;
     public float bonusPosition;
-    public float bonusMultiplier;
+    public int bonusMultiplier;
     public float sessionStartDelay;
     public float sessionOverDelay;
     [Header("Grid")]
     public float gridStartPosition;
     public float gridLineHeight;
+    public float gridWidth;
 }
