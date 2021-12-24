@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 2109253018980639820}
+  box: {fileID: -1810587995222050007}
   dissolver: {fileID: -2145648312224478531}
   health: 2
   points: 2

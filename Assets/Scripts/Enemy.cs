@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : GameEntity {
+    public BoxCollider2D box;
     public GameEntityDissolver dissolver;
     [Range(1,10)]
     [SerializeField]
@@ -17,20 +18,31 @@ public class Enemy : GameEntity {
 
     public override void Spawn(Vector2 _position) {
         currentHealth = health;
+        box.enabled = true;
         base.Spawn(_position);
     }
 
     public override void Deactivate() {
         currentHealth = 0;
+        box.enabled = false;
         base.Deactivate();
+        dissolver.Clear();
     }
 
     private void Hit() {
         //PFX Hit
     }
 
-    private void Kill() {
+    public void Kill() {
         //PFX Explosion
+        StartCoroutine(OnKill());
+    }
+
+    private IEnumerator OnKill() {
+        box.enabled = false;
+        dissolver.Dissolve();
+        yield return new WaitForSeconds(dissolver.dissolveTime);
+        Deactivate();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
