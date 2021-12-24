@@ -40,11 +40,15 @@ public class Player : GameEntity{
 
     public override void Activate() {
         transform.localScale = Vector2.one;
+        dissolver.Clear();
         base.Activate();
     }
 
     public override void Deactivate() {
         shockwave.Clear();
+        move = 0f;
+        currentMove = 0f;
+        moveVelocity = 0f;
         base.Deactivate();
     }
 
