@@ -12,7 +12,6 @@ public abstract class Weapon : MonoBehaviour{
 
     public bool CanShoot { get; private set; }
     public float Cooldown { get { return cooldown; } }
-    protected float cooldownTimer;
 
     private void Awake() {
         pool = new Pool<Bullet>(bullets);
@@ -20,27 +19,16 @@ public abstract class Weapon : MonoBehaviour{
         CanShoot = true;
     }
 
-    private void Update() {
-        if (!CanShoot) {
-            cooldownTimer += Time.deltaTime;
-            if (cooldownTimer >= cooldown) {
-                CanShoot = true;
-            }
-        }
-    }
-
     public void Clear() {
         StopAllCoroutines();
         pool.Clear();
         CanShoot = true;
-        cooldownTimer = 0f;
     }
 
     public bool Fire(Vector2 position) {
         if (!CanShoot) return false;
         if (!OnFire(position)) return false;
         CanShoot = false;
-        cooldownTimer = 0f;
         StartCoroutine(OnCooldown());
         return true;
     }
