@@ -5,11 +5,13 @@ using UnityEngine;
 public class LevelSpot{
     public EnemyType EnemyType { get; set; }
     public LevelSpotStatus Status { get; set; }
+    public Enemy enemy { get; set; }
     public Vector2 position;
 
     public LevelSpot() {
         EnemyType = EnemyType.None;
         Status = LevelSpotStatus.Standby;
+        enemy = null;
     }
 }
 
