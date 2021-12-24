@@ -13,6 +13,7 @@ public class Player : GameEntity{
     public float damping;
     public Vector2 maxScaleDistort;
     public Vector2 weaponFireOffset;
+    public Shockwave shockwave;
     public bool CanControl { get; private set; }
 
     private float move;
@@ -42,6 +43,11 @@ public class Player : GameEntity{
         base.Activate();
     }
 
+    public override void Deactivate() {
+        shockwave.Clear();
+        base.Deactivate();
+    }
+
     private void UpdateMovement() {
         currentMove = Mathf.SmoothDamp(currentMove, move * speed, ref moveVelocity, damping);
         Vector2 position = transform.position;
@@ -52,9 +58,9 @@ public class Player : GameEntity{
 
     public void Fire() {
         bool fire = weapons.Fire((Vector2)transform.position + weaponFireOffset, out float cooldown);
-        if (fire && OnWeaponFired != null) {
-            OnWeaponFired.Invoke(cooldown);
-        }
+        if (!fire) return;
+        shockwave.CreateShockwave(sessionData.playerFireShockwaveTime);
+        OnWeaponFired.Invoke(cooldown);
     }
 
     public void GainControl() {
@@ -68,7 +74,7 @@ public class Player : GameEntity{
     }
 
     private void Distort() {
-        float distort = GetMovementDistort();
+        float distort = Mathf.Max(GetMovementDistort(), shockwave.Current);
         Vector2 scale = Vector2.Lerp(Vector2.one, maxScaleDistort, distort);
         transform.localScale = scale;
     }

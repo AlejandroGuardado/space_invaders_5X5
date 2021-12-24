@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -5022526781151866083}
   - component: {fileID: -5631818844280605778}
   - component: {fileID: -7230296194778737859}
+  - component: {fileID: -7938951922272024114}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -109,6 +110,7 @@ MonoBehaviour:
   damping: 0
   maxScaleDistort: {x: 0, y: 0}
   weaponFireOffset: {x: 0, y: 0}
+  shockwave: {fileID: -7938951922272024114}
   OnWeaponFired:
     m_PersistentCalls:
       m_Calls: []
@@ -187,3 +189,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-7938951922272024114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4150084726194865886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d184af463900f2a4ca71f124ee6318be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

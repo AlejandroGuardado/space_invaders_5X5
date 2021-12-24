@@ -24,7 +24,7 @@ MonoBehaviour:
   sessionDefeatDelay: 2
   bulletKillzonePosition: 7
   defaultWeapon: 0
-  playerFireShockwaveTime: 0.5
+  playerFireShockwaveTime: 0.25
   gridStartPosition: 4
   gridLineHeight: 1
   gridWidth: 10
