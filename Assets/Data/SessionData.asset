@@ -15,12 +15,15 @@ MonoBehaviour:
   levels:
   - {fileID: 11400000, guid: 42e042ca926a34f46a982f7d3e2eceed, type: 2}
   playerSpawnPosition: -4
-  enemySpawnPosition: 6
-  gameOverPosition: -3.35
-  bonusPosition: 0
+  enemySpawnPosition: 7
+  gameOverPosition: -3.5
+  bonusPosition: 1
   bonusMultiplier: 3
-  sessionOverDelay: 1
-  gridStartPosition: 2
-  gridWidth: 10
+  sessionStartDelay: 1
+  sessionVictoryDelay: 1
+  sessionDefeatDelay: 2
+  bulletKillzonePosition: 7
+  defaultWeapon: 0
+  gridStartPosition: 4
   gridLineHeight: 1
-  gridUnitWidth: 1
+  gridWidth: 10

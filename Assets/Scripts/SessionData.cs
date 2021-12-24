@@ -12,7 +12,10 @@ public class SessionData : ScriptableObject{
     public float bonusPosition;
     public int bonusMultiplier;
     public float sessionStartDelay;
-    public float sessionOverDelay;
+    public float sessionVictoryDelay;
+    public float sessionDefeatDelay;
+    public float bulletKillzonePosition;
+    public PlayerWeapon defaultWeapon;
     [Header("Grid")]
     public float gridStartPosition;
     public float gridLineHeight;
