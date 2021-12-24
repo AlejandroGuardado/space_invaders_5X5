@@ -7,6 +7,8 @@ public class GameManager : GameFSM {
     public MenuScreen menuScreen;
     public CreditsScreen creditsScreen;
     public SessionScreen sessionScreen;
+    public VictoryScreen victoryScreen;
+    public DefeatScreen defeatScreen;
     public Skip skip;    
 
     void Start(){
@@ -43,20 +45,34 @@ public class GameManager : GameFSM {
         LateUpdateScreen();
     }
 
-    public void OnSplashFinish() {
-        ChangeScreen(menuScreen);
-    }
-
-    public void OnMenuToCreditsTransition() {
+    public void ToCreditsTransition() {
         ChangeScreen(creditsScreen);
     }
 
-    public void OnCreditsToMenuTransition() {
+    public void ToMenuTransition() {
         ChangeScreen(menuScreen);
+    }
+
+    public void ToVictoryTransition() {
+        ChangeScreen(victoryScreen);
+    }
+
+    public void ToDefeatTransition() {
+        ChangeScreen(defeatScreen);
     }
 
     public void OnLevelSelect(int levelIndex) {
         sessionScreen.SetLevelIndex(levelIndex);
+        ChangeScreen(sessionScreen);
+    }
+
+    public void OnNextLevel() {
+        sessionScreen.SetLevelIndex(sessionScreen.LevelIndex_OneBased + 1);
+        ChangeScreen(sessionScreen);
+    }
+
+    public void OnRetryLevel() {
+        sessionScreen.SetLevelIndex(sessionScreen.LevelIndex_OneBased);
         ChangeScreen(sessionScreen);
     }
 
