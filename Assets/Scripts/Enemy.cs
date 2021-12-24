@@ -11,12 +11,9 @@ public class Enemy : GameEntity {
     [SerializeField]
     private int points;
     public bool IsAlive { get { return currentHealth > 0; } }
-    
-    private int currentHealth;
+    public int Points { get { return points; } }
 
-    private void Awake() {
-        Deactivate();
-    }
+    private int currentHealth;
 
     public override void Spawn(Vector2 _position) {
         currentHealth = health;
