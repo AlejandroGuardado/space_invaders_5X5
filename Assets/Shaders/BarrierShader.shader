@@ -33,12 +33,14 @@ Shader "SpaceInvaders/BarrierShader"
             struct appdata{
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f{
                 float2 uv : TEXCOORD0;
                 float4 worldSpacePosition : TEXCOORD1;
-                float4 vertex : SV_POSITION;                
+                float4 vertex : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             sampler2D _MainTex;
@@ -76,6 +78,8 @@ Shader "SpaceInvaders/BarrierShader"
 
             v2f vert (appdata v){
                 v2f o;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
                 o.vertex = float4(v.vertex.xy * _Flip, v.vertex.z, 1.0);
                 o.vertex = UnityObjectToClipPos(o.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
@@ -83,7 +87,8 @@ Shader "SpaceInvaders/BarrierShader"
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target{                
+            fixed4 frag(v2f i) : SV_Target{    
+                UNITY_SETUP_INSTANCE_ID(i);
                 float distance = length(_Position - i.worldSpacePosition.xyz);
                 if(distance > _ShowDistance){
                     discard;
