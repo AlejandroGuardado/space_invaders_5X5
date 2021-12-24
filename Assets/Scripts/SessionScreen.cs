@@ -12,6 +12,8 @@ public class SessionScreen : GameScreen{
     public GameObject touchCanvas;
     public GameObject reloadCanvas;
     public Barrier[] barriers;
+    public SwapButton[] swapButtons;
+    public FillButton fireButton;
     public Text scoreText;
     public SessionData sessionData;
     public TransitionData transitionData;
@@ -35,7 +37,7 @@ public class SessionScreen : GameScreen{
         levelIndex = 0;
         state = SessionState.Start;
         player.Deactivate();
-        HideUI();
+        ClearUI();
     }
 
     public override IEnumerator OnEnter() {
@@ -77,6 +79,9 @@ public class SessionScreen : GameScreen{
         for (int i = 0; i < barriers.Length; i++) {
             barriers[i].Deactivate();
         }
+        for (int i = 0; i < swapButtons.Length; i++) {
+            swapButtons[i].OnRelease();
+        }
     }
 
     public void SetLevelIndex(int levelIndex) {
@@ -85,6 +90,7 @@ public class SessionScreen : GameScreen{
     }
 
     private void InitSession() {
+        ClearUI();
         InitScore();
         enemyPool.Clear();
         LoadLevel();
@@ -98,11 +104,18 @@ public class SessionScreen : GameScreen{
         state = SessionState.Active;
         player.GainControl();
         player.OnWeaponFired.AddListener(OnWeaponFired);
+        #if UNITY_ANDROID
+        touchCanvas.SetActive(true);
+        #endif
     }
 
     private void StopGameplay() {
         player.OnWeaponFired.RemoveListener(OnWeaponFired);
         player.weapons.Clear();
+        player.RemoveControl();
+        #if UNITY_ANDROID
+        touchCanvas.SetActive(false);
+        #endif
     }
 
     private void GameOver() {
@@ -112,7 +125,6 @@ public class SessionScreen : GameScreen{
 
     private IEnumerator Victory() {
         GameOver();
-        player.RemoveControl();
         yield return new WaitForSeconds(sessionData.sessionVictoryDelay);
         if(OnVictory != null) {
             OnVictory.Invoke();
@@ -253,18 +265,22 @@ public class SessionScreen : GameScreen{
         StopCoroutine(HideReloadLabel(cooldown));
         reloadCanvas.SetActive(true);
         StartCoroutine(HideReloadLabel(cooldown));
-
+        fireButton.Fill(cooldown);
         IEnumerator HideReloadLabel(float cooldown) {
             yield return new WaitForSeconds(cooldown);
             reloadCanvas.SetActive(false);
         }
     }
 
-    private void HideUI() {
+    private void ClearUI() {
         scoreCanvas.SetActive(false);
         powerupCanvas.SetActive(false);
         touchCanvas.SetActive(false);
         reloadCanvas.SetActive(false);
+        for (int i = 0; i < swapButtons.Length; i++) {
+            swapButtons[i].OnRelease();
+        }
+        fireButton.Clear();
     }
 
     private void InitScore() {
