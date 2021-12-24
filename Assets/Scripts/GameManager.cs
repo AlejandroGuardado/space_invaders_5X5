@@ -12,6 +12,8 @@ public class GameManager : GameFSM {
     public Skip skip;    
 
     void Start(){
+        Application.targetFrameRate = 60;
+
         #if UNITY_EDITOR || DEBUG
 
         switch (skip) {
