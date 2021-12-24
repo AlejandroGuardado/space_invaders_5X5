@@ -23,7 +23,7 @@ public class GameEntityDissolver : MonoBehaviour{
             dissolveFactor = Mathf.Clamp01(currentDissolveTime / dissolveTime);
             entity.sprite.material.SetFloat(DissolveFactorID, dissolveFactor);
             if (currentDissolveTime > dissolveTime) {
-                Clear();
+                doDissolve = false;
             }
         }
     }
@@ -41,6 +41,5 @@ public class GameEntityDissolver : MonoBehaviour{
         entity.sprite.material.SetInt(DissolveID, 0);
         dissolveFactor = 0f;
         currentDissolveTime = 0f;
-        dissolveTime = 0f;
     }
 }
