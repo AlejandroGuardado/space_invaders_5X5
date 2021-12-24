@@ -11,6 +11,7 @@ public class SessionData : ScriptableObject{
     public float gameOverPosition;
     public float bonusPosition;
     public float bonusMultiplier;
+    public float sessionStartDelay;
     public float sessionOverDelay;
     [Header("Grid")]
     public float gridStartPosition;
