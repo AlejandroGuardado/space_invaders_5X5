@@ -10,6 +10,8 @@ public class SessionScreen : GameScreen{
     public GameObject scoreCanvas;
     public GameObject powerupCanvas;
     public GameObject touchCanvas;
+    public GameObject reloadCanvas;
+    public Barrier[] barriers;
     public Text scoreText;
     public SessionData sessionData;
     public TransitionData transitionData;
@@ -32,6 +34,7 @@ public class SessionScreen : GameScreen{
     private void Awake() {
         levelIndex = 0;
         state = SessionState.Start;
+        player.Deactivate();
         HideUI();
     }
 
@@ -62,6 +65,11 @@ public class SessionScreen : GameScreen{
 
     public override IEnumerator OnExit() {
         state = SessionState.Over;
+        grid.Clear();
+        player.Deactivate();
+        for (int i = 0; i < barriers.Length; i++) {
+            barriers[i].Deactivate();
+        }
         yield return new WaitForEndOfFrame();
     }
 
@@ -78,10 +86,15 @@ public class SessionScreen : GameScreen{
         InitScore();
         enemyPool.Clear();
         LoadLevel();
+        player.Spawn(new Vector2(0, sessionData.playerSpawnPosition));
+        for (int i = 0; i < barriers.Length; i++) {
+            barriers[i].Activate();
+        }
     }
 
     private void StartGameplay() {
         state = SessionState.Active;
+        player.GainControl();
     }
 
     private void LoadLevel() {
@@ -191,14 +204,16 @@ public class SessionScreen : GameScreen{
         }
     }
 
-    private void OnEnemyKilled(float points, float yPosition) {
-        
+    private void OnEnemyKilled(int points, float yPosition) {
+        bool bonus = yPosition > sessionData.bonusPosition;
+        score += points * (bonus ? sessionData.bonusMultiplier : 1);
     }
 
     private void HideUI() {
         scoreCanvas.SetActive(false);
         powerupCanvas.SetActive(false);
         touchCanvas.SetActive(false);
+        reloadCanvas.SetActive(false);
     }
 
     private void InitScore() {
