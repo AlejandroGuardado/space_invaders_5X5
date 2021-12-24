@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class SessionScreen : GameScreen{
+    public Player player;
+    public EnemyPool enemyPool;
     public GameObject scoreCanvas;
     public GameObject powerupCanvas;
     public GameObject touchCanvas;
@@ -19,26 +21,47 @@ public class SessionScreen : GameScreen{
     private LevelData levelData;
     private int score;
     private List<LevelSpot> grid;
+    private SessionState state;
+
+    public bool IsSessionActive {
+        get {
+            return state == SessionState.Active;
+        }
+    }
 
     private void Awake() {
         levelIndex = 0;
+        state = SessionState.Start;
         HideUI();
     }
 
     public override IEnumerator OnEnter() {
+        state = SessionState.Start;
         TransitionManager.Instance.FadeOutImmediatly();
         TransitionManager.Instance.CutInImmediatly();
+        InitSession();
         yield return new WaitForSeconds(transitionData.sessionDelayTime);
         TransitionManager.Instance.CutOut(transitionData.sessionTransitionTime);
-        InitSession();
         yield return new WaitForSeconds(transitionData.sessionTransitionTime);
+        yield return new WaitForSeconds(sessionData.sessionStartDelay);
+        StartGameplay();
     }
 
     public override void OnUpdate() {
-        return;
+        if (IsSessionActive) {
+            SpawnSpots();
+            CheckKilledEnemies();
+        }
+    }
+
+    public override void OnLateUpdate() {
+        if (IsSessionActive) {
+            MoveSpots();
+        }
     }
 
     public override IEnumerator OnExit() {
+        state = SessionState.Over;
         yield return new WaitForEndOfFrame();
     }
 
@@ -53,7 +76,12 @@ public class SessionScreen : GameScreen{
 
     private void InitSession() {
         InitScore();
+        enemyPool.Clear();
         LoadLevel();
+    }
+
+    private void StartGameplay() {
+        state = SessionState.Active;
     }
 
     private void LoadLevel() {
@@ -102,6 +130,8 @@ public class SessionScreen : GameScreen{
                 lineHeight += sessionData.gridLineHeight;
             }
         }
+
+        SpawnSpots();
     }
 
     private void AssignRandomEnemyToSpots(List<int> spotIndexes, EnemyType type, int needed) {
@@ -111,6 +141,58 @@ public class SessionScreen : GameScreen{
             grid[spotIndexes[randomIndex]].EnemyType = type;
             spotIndexes.RemoveAt(randomIndex);
         }
+    }
+
+    private void SpawnSpots() {
+        for (int i = 0; i < grid.Count; i++) {
+            LevelSpot spot = grid[i];
+            bool standby = spot.Status == LevelSpotStatus.Standby;
+            bool canEnemySpawn = spot.enemy == null;
+            bool passSpawnPosition = spot.position.y <= sessionData.enemySpawnPosition;
+            if (standby && canEnemySpawn && passSpawnPosition) {
+                spot.enemy = enemyPool.Spawn(spot.EnemyType, spot.position);
+                if(spot.enemy != null) {
+                    spot.Status = LevelSpotStatus.Active;
+                }
+            }
+        }
+    }
+
+    private void MoveSpots() {
+        bool crossedGameOverLine = false;
+        float yDelta = levelData.speed * Time.deltaTime;
+        for (int i = 0; i < grid.Count; i++) {
+            LevelSpot spot = grid[i];
+            if (spot.Status == LevelSpotStatus.Off) continue;
+
+            //Go down
+            spot.position.y -= yDelta;
+            //If any enemy crossed line, it's game over
+            crossedGameOverLine |= spot.position.y <= sessionData.gameOverPosition;
+
+            if (spot.Status == LevelSpotStatus.Active) {
+                spot.enemy.transform.position = spot.position;
+            }
+        }
+        if (crossedGameOverLine) {
+            Debug.Log("Game Over");
+            state = SessionState.Over;
+        }
+    }
+
+    private void CheckKilledEnemies() {
+        for (int i = 0; i < grid.Count; i++) {
+            LevelSpot spot = grid[i];
+            if (spot.Status == LevelSpotStatus.Active && spot.enemy && !spot.enemy.IsAlive) {
+                spot.Status = LevelSpotStatus.Off;
+                //Enemy OnKill - dissolve and deactivate coroutine
+                OnEnemyKilled(spot.enemy.Points, spot.position.y);
+            }
+        }
+    }
+
+    private void OnEnemyKilled(float points, float yPosition) {
+        
     }
 
     private void HideUI() {
@@ -127,5 +209,11 @@ public class SessionScreen : GameScreen{
 
     private void UpdateScoreText() {
         scoreText.text = string.Format("{0:00000000}", score);
+    }
+
+    private enum SessionState {
+        Start,
+        Active,
+        Over
     }
 }
