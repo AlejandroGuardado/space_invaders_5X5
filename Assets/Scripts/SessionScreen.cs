@@ -21,7 +21,7 @@ public class SessionScreen : GameScreen{
 
     private int levelIndex;
     private LevelData levelData;
-    private int score;
+    public int Score {  get; private set; }
     private List<LevelSpot> grid;
     private SessionState state;
 
@@ -64,17 +64,19 @@ public class SessionScreen : GameScreen{
     }
 
     public override IEnumerator OnExit() {
-        state = SessionState.Over;
-        grid.Clear();
-        player.Deactivate();
-        for (int i = 0; i < barriers.Length; i++) {
-            barriers[i].Deactivate();
-        }
         yield return new WaitForEndOfFrame();
     }
 
     public override float GetExitTime() {
         return 0f;
+    }
+
+    public void Clear() {
+        grid.Clear();
+        player.Deactivate();
+        for (int i = 0; i < barriers.Length; i++) {
+            barriers[i].Deactivate();
+        }
     }
 
     public void SetLevelIndex(int levelIndex) {
@@ -95,6 +97,37 @@ public class SessionScreen : GameScreen{
     private void StartGameplay() {
         state = SessionState.Active;
         player.GainControl();
+        player.OnWeaponFired.AddListener(OnWeaponFired);
+    }
+
+    private void StopGameplay() {
+        player.OnWeaponFired.RemoveListener(OnWeaponFired);
+        player.weapons.Clear();
+    }
+
+    private void GameOver() {
+        state = SessionState.Over;
+        StopGameplay();
+    }
+
+    private IEnumerator Victory() {
+        GameOver();
+        player.RemoveControl();
+        yield return new WaitForSeconds(sessionData.sessionVictoryDelay);
+        if(OnVictory != null) {
+            OnVictory.Invoke();
+        }
+        Debug.Log("Victory");
+    }
+
+    private IEnumerator Defeat() {
+        GameOver();
+        player.Kill();
+        yield return new WaitForSeconds(sessionData.sessionDefeatDelay);
+        if (OnDefeat != null) {
+            OnDefeat.Invoke();
+        }
+        Debug.Log("Defeat");
     }
 
     private void LoadLevel() {
@@ -144,6 +177,7 @@ public class SessionScreen : GameScreen{
             }
         }
 
+        //First round of spawns
         SpawnSpots();
     }
 
@@ -188,25 +222,42 @@ public class SessionScreen : GameScreen{
             }
         }
         if (crossedGameOverLine) {
-            Debug.Log("Game Over");
-            state = SessionState.Over;
+            StartCoroutine(Defeat());
         }
     }
 
     private void CheckKilledEnemies() {
+        bool allKilled = true;
         for (int i = 0; i < grid.Count; i++) {
             LevelSpot spot = grid[i];
             if (spot.Status == LevelSpotStatus.Active && spot.enemy && !spot.enemy.IsAlive) {
                 spot.Status = LevelSpotStatus.Off;
-                //Enemy OnKill - dissolve and deactivate coroutine
-                OnEnemyKilled(spot.enemy.Points, spot.position.y);
+                OnEnemyKilled(spot.enemy);
             }
+            allKilled &= spot.Status == LevelSpotStatus.Off;
+        }
+        if (allKilled) {
+            StartCoroutine(Victory());
         }
     }
 
-    private void OnEnemyKilled(int points, float yPosition) {
-        bool bonus = yPosition > sessionData.bonusPosition;
-        score += points * (bonus ? sessionData.bonusMultiplier : 1);
+    private void OnEnemyKilled(Enemy enemy) {
+        bool bonus = enemy.transform.position.y > sessionData.bonusPosition;
+        Score += enemy.Points * (bonus ? sessionData.bonusMultiplier : 1);
+        UpdateScoreText();
+        enemy.Kill();
+    }
+
+    private void OnWeaponFired(float cooldown) {
+        //Show Reload Label
+        StopCoroutine(HideReloadLabel(cooldown));
+        reloadCanvas.SetActive(true);
+        StartCoroutine(HideReloadLabel(cooldown));
+
+        IEnumerator HideReloadLabel(float cooldown) {
+            yield return new WaitForSeconds(cooldown);
+            reloadCanvas.SetActive(false);
+        }
     }
 
     private void HideUI() {
@@ -217,18 +268,23 @@ public class SessionScreen : GameScreen{
     }
 
     private void InitScore() {
-        score = 0;
+        Score = 0;
         scoreCanvas.SetActive(true);
         UpdateScoreText();
     }
 
     private void UpdateScoreText() {
-        scoreText.text = string.Format("{0:00000000}", score);
+        scoreText.text = string.Format("{0:00000000}", Score);
     }
 
     private enum SessionState {
         Start,
         Active,
         Over
+    }
+
+    private enum GameOverState {
+        Victory,
+        Defeat
     }
 }
