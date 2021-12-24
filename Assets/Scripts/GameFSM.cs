@@ -18,6 +18,12 @@ public class GameFSM : MonoBehaviour {
         }
     }
 
+    public void LateUpdateScreen() {
+        if (currentScreen != null) {
+            currentScreen.OnLateUpdate();
+        }
+    }
+
     public void ChangeScreen(GameScreen screen) {
         StartCoroutine(Change(screen));
     }

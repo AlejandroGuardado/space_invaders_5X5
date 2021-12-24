@@ -39,6 +39,10 @@ public class GameManager : GameFSM {
         UpdateScreen();
     }
 
+    void LateUpdate() {
+        LateUpdateScreen();
+    }
+
     public void OnSplashFinish() {
         ChangeScreen(menuScreen);
     }
