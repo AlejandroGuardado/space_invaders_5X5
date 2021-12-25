@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FillButton : MonoBehaviour{
+public class FillImage : MonoBehaviour{
     public UnityEngine.UI.Image image;
     public bool reverse;
     private float fillTimer;
