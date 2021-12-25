@@ -15,6 +15,8 @@ public class SessionData : ScriptableObject{
     public float sessionStartDelay;
     public float sessionVictoryDelay;
     public float sessionDefeatDelay;
+    public float sessionStartGameImageDelay;
+    public float sessionStartGameImageShowTime;
     public float bulletKillzonePosition;
     public PlayerGun defaultGun;
     public float playerFireShockwaveTime;

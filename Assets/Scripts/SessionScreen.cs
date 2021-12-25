@@ -11,6 +11,7 @@ public class SessionScreen : GameScreen{
     public GameObject powerupCanvas;
     public GameObject touchCanvas;
     public GameObject reloadCanvas;
+    public GameObject startGameCanvas;
     public Barrier[] barriers;
     public SwapButton[] swapButtons;
     public FillImage fireButton;
@@ -53,6 +54,7 @@ public class SessionScreen : GameScreen{
         yield return new WaitForSeconds(transitionData.sessionDelayTime);
         TransitionManager.Instance.CutOut(transitionData.sessionTransitionTime);
         yield return new WaitForSeconds(transitionData.sessionTransitionTime);
+        StartCoroutine(ShowStartGame());
         yield return new WaitForSeconds(sessionData.sessionStartDelay);
         StartGameplay();
     }
@@ -291,6 +293,7 @@ public class SessionScreen : GameScreen{
         powerupCanvas.SetActive(false);
         touchCanvas.SetActive(false);
         reloadCanvas.SetActive(false);
+        startGameCanvas.SetActive(false);
         for (int i = 0; i < swapButtons.Length; i++) {
             swapButtons[i].OnRelease();
         }
@@ -306,6 +309,13 @@ public class SessionScreen : GameScreen{
 
     private void UpdateScoreText() {
         UpdateScoreText(scoreText, Score);
+    }
+
+    private IEnumerator ShowStartGame() {
+        yield return new WaitForSeconds(sessionData.sessionStartGameImageDelay);
+        startGameCanvas.SetActive(true);
+        yield return new WaitForSeconds(sessionData.bonusTextShowTime);
+        startGameCanvas.SetActive(false);
     }
 
     private IEnumerator ShowBonus() {
