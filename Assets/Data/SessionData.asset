@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SessionData
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 11400000, guid: 23a682ba7743fe549b57b4db9f511b9a, type: 2}
-  - {fileID: 11400000, guid: 29c1d543410cd2f43a0fbdce3b16ca4f, type: 2}
+  - {fileID: 11400000, guid: 42e042ca926a34f46a982f7d3e2eceed, type: 2}
+  - {fileID: 11400000, guid: 9efade283bdf19a45affa3d09e8d6955, type: 2}
   playerSpawnPosition: -4
   enemySpawnPosition: 7
   gameOverPosition: -3.5
