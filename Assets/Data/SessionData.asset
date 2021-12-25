@@ -21,14 +21,14 @@ MonoBehaviour:
   bonusPosition: 1
   bonusMultiplier: 3
   bonusTextShowTime: 0.75
-  sessionStartDelay: 2
+  sessionStartDelay: 1.75
   sessionVictoryDelay: 1
   sessionDefeatDelay: 2
-  sessionStartGameImageDelay: 1.25
-  sessionStartGameImageShowTime: 0.75
+  sessionStartGameImageDelay: 0.75
+  sessionStartGameImageShowTime: 1
   bulletKillzonePosition: 7
   defaultGun: 0
   playerFireShockwaveTime: 0.25
-  gridStartPosition: 4
+  gridStartPosition: 3.5
   gridLineHeight: 1
   gridWidth: 10

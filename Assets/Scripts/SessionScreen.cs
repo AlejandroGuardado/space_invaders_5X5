@@ -328,7 +328,7 @@ public class SessionScreen : GameScreen{
     private IEnumerator ShowStartGame() {
         yield return new WaitForSeconds(sessionData.sessionStartGameImageDelay);
         startGameCanvas.SetActive(true);
-        yield return new WaitForSeconds(sessionData.bonusTextShowTime);
+        yield return new WaitForSeconds(sessionData.sessionStartGameImageShowTime);
         startGameCanvas.SetActive(false);
     }
 
