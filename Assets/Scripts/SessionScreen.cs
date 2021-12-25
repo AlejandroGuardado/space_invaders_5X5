@@ -13,8 +13,9 @@ public class SessionScreen : GameScreen{
     public GameObject reloadCanvas;
     public Barrier[] barriers;
     public SwapButton[] swapButtons;
-    public FillButton fireButton;
+    public FillImage fireButton;
     public Text scoreText;
+    public Text bonusText;
     public SessionData sessionData;
     public TransitionData transitionData;
 
@@ -40,6 +41,7 @@ public class SessionScreen : GameScreen{
         levelIndex = 0;
         state = SessionState.Start;
         player.Deactivate();
+        scoreText.text = $"BONUSX{sessionData.bonusMultiplier}";
         ClearUI();
     }
 
@@ -132,6 +134,7 @@ public class SessionScreen : GameScreen{
         if(OnVictory != null) {
             OnVictory.Invoke();
         }
+        ClearUI();
     }
 
     private IEnumerator Defeat() {
@@ -141,6 +144,7 @@ public class SessionScreen : GameScreen{
         if (OnDefeat != null) {
             OnDefeat.Invoke();
         }
+        ClearUI();
     }
 
     private void LoadLevel() {
@@ -255,6 +259,10 @@ public class SessionScreen : GameScreen{
 
     private void OnEnemyKilled(Enemy enemy) {
         bool bonus = enemy.transform.position.y > sessionData.bonusPosition;
+        if (bonus) {
+            StopCoroutine(ShowBonus());
+            StartCoroutine(ShowBonus());
+        }
         Score += enemy.Points * (bonus ? sessionData.bonusMultiplier : 1);
         UpdateScoreText();
         enemy.Kill();
@@ -293,10 +301,20 @@ public class SessionScreen : GameScreen{
         Score = 0;
         scoreCanvas.SetActive(true);
         UpdateScoreText();
+        bonusText.enabled = false;
     }
 
     private void UpdateScoreText() {
         UpdateScoreText(scoreText, Score);
+    }
+
+    private IEnumerator ShowBonus() {
+        //Hide bonus text in case it was shown already
+        bonusText.enabled = false;
+        yield return new WaitForSeconds(0.1f);
+        bonusText.enabled = true;
+        yield return new WaitForSeconds(sessionData.bonusTextShowTime);
+        bonusText.enabled = false;
     }
 
     public static void UpdateScoreText(Text scoreText, float score) {

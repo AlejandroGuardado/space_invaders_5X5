@@ -11,6 +11,7 @@ public class SessionData : ScriptableObject{
     public float gameOverPosition;
     public float bonusPosition;
     public int bonusMultiplier;
+    public float bonusTextShowTime;
     public float sessionStartDelay;
     public float sessionVictoryDelay;
     public float sessionDefeatDelay;
