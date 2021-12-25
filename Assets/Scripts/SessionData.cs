@@ -16,7 +16,7 @@ public class SessionData : ScriptableObject{
     public float sessionVictoryDelay;
     public float sessionDefeatDelay;
     public float bulletKillzonePosition;
-    public PlayerWeapon defaultWeapon;
+    public PlayerGun defaultGun;
     public float playerFireShockwaveTime;
     [Header("Grid")]
     public float gridStartPosition;

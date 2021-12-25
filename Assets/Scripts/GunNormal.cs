@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponNormal : Weapon {
+public class GunNormal : Gun {
     public override bool OnFire(Vector2 position) {
         Bullet bullet = pool.Spawn(position);
         if (bullet) {

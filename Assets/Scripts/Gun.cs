@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour{
+public abstract class Gun : MonoBehaviour{
     public List<Bullet> bullets;
     public float speed;
     public Color color;

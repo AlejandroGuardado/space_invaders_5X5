@@ -13,17 +13,19 @@ MonoBehaviour:
   m_Name: SessionData
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 11400000, guid: 42e042ca926a34f46a982f7d3e2eceed, type: 2}
+  - {fileID: 11400000, guid: 23a682ba7743fe549b57b4db9f511b9a, type: 2}
+  - {fileID: 11400000, guid: 29c1d543410cd2f43a0fbdce3b16ca4f, type: 2}
   playerSpawnPosition: -4
   enemySpawnPosition: 7
   gameOverPosition: -3.5
   bonusPosition: 1
   bonusMultiplier: 3
+  bonusTextShowTime: 0.75
   sessionStartDelay: 1
   sessionVictoryDelay: 1
   sessionDefeatDelay: 2
   bulletKillzonePosition: 7
-  defaultWeapon: 0
+  defaultGun: 0
   playerFireShockwaveTime: 0.25
   gridStartPosition: 4
   gridLineHeight: 1

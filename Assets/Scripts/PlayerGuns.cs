@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWeapons : MonoBehaviour{
-    public WeaponNormal normal;
-    public PlayerWeapon currentWeapon;
+public class PlayerGuns : MonoBehaviour{
+    public GunNormal normal;
+    public PlayerGun currentWeapon;
 
     //Returns cooldown
     public bool Fire(Vector2 position, out float cooldown) {
         bool fired = false;
         switch (currentWeapon) {
-            case PlayerWeapon.Normal:
+            case PlayerGun.Normal:
                 cooldown = normal.Cooldown;
                 return normal.Fire(position);
-            case PlayerWeapon.Triple:
+            case PlayerGun.Triple:
                 //break;
-            case PlayerWeapon.Quick:
+            case PlayerGun.Quick:
                 //break;
             default:
                 cooldown = 0f;
@@ -29,7 +29,7 @@ public class PlayerWeapons : MonoBehaviour{
     }
 }
 
-public enum PlayerWeapon {
+public enum PlayerGun {
     Normal,
     Triple,
     Quick
