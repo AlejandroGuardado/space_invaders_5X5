@@ -80,8 +80,12 @@ public class SessionScreen : GameScreen{
         return 0f;
     }
 
+    /*
+    When game is over, you still see all remaining objects
+    Session should be cleared on game over screen
+    */
     public void Clear() {
-        grid.Clear();
+        ClearGrid();
         player.Deactivate();
         for (int i = 0; i < barriers.Length; i++) {
             barriers[i].Deactivate();
@@ -89,6 +93,16 @@ public class SessionScreen : GameScreen{
         for (int i = 0; i < swapButtons.Length; i++) {
             swapButtons[i].OnRelease();
         }
+    }
+
+    private void ClearGrid() {
+        for (int i = 0; i < grid.Count; i++) {
+            LevelSpot spot = grid[i];
+            if (spot.enemy) {
+                spot.enemy.Deactivate();
+            }
+        }
+        grid.Clear();
     }
 
     public void SetLevelIndex(int levelIndex) {
