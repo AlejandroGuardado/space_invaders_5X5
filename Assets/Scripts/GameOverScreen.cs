@@ -12,9 +12,12 @@ public abstract class GameOverScreen : GameScreen{
     public TransitionData transitionData;
     public GameObject backCanvas;
     public GameObject canvas;
+    public Text titleText;
     public Text scoreText;
     public Button retryButton;
     public Button nextButton;
+
+    public abstract string Title { get; }
 
     private void Awake() {
         backCanvas.SetActive(false);
@@ -30,6 +33,7 @@ public abstract class GameOverScreen : GameScreen{
         OnEnterGameOver();
         backCanvas.SetActive(true);
         canvas.SetActive(true);
+        titleText.text = Title;
         yield return new WaitForEndOfFrame();
     }
 
