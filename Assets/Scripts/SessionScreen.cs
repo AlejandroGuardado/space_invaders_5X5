@@ -11,6 +11,7 @@ public class SessionScreen : GameScreen{
     public GameObject powerupCanvas;
     public GameObject touchCanvas;
     public GameObject reloadCanvas;
+    public FillImage reloadFill;
     public GameObject startGameCanvas;
     public Barrier[] barriers;
     public SwapButton[] swapButtons;
@@ -285,18 +286,17 @@ public class SessionScreen : GameScreen{
     }
 
     private void OnWeaponFired(float cooldown) {
-        //Show Reload Label
-        StopCoroutine(HideReloadLabel(cooldown));
+        StopCoroutine(HideReload(cooldown));
         reloadCanvas.SetActive(true);
-        StartCoroutine(HideReloadLabel(cooldown));
+        StartCoroutine(HideReload(cooldown));
 
-        
+        reloadFill.Fill(cooldown);
         fireButton.Fill(cooldown);
         for (int i = 0; i < barriers.Length; i++) {
             barriers[i].Shockwave(sessionData.playerFireShockwaveTime);
         }
 
-        IEnumerator HideReloadLabel(float cooldown) {
+        IEnumerator HideReload(float cooldown) {
             yield return new WaitForSeconds(cooldown);
             reloadCanvas.SetActive(false);
         }
@@ -307,6 +307,7 @@ public class SessionScreen : GameScreen{
         powerupCanvas.SetActive(false);
         touchCanvas.SetActive(false);
         reloadCanvas.SetActive(false);
+        reloadFill.Clear();
         startGameCanvas.SetActive(false);
         for (int i = 0; i < swapButtons.Length; i++) {
             swapButtons[i].OnRelease();
