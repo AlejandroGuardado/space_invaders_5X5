@@ -134,7 +134,7 @@ MonoBehaviour:
   sessionData: {fileID: 11400000, guid: ac3f250255541654e9c199ff5cc07d83, type: 2}
   box: {fileID: 9046493760346328938}
   glow: {fileID: 9046493760224967638}
-  speed: 7
+  speed: 10
 --- !u!212 &9046493760346328936
 SpriteRenderer:
   m_ObjectHideFlags: 0
