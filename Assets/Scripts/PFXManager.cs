@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PFXManager : MonoBehaviour{
     public PFXPool hitPool;
+    public PFXPool explosionPool;
 
     private static PFXManager _manager;
     public static PFXManager Instance {
@@ -21,5 +22,9 @@ public class PFXManager : MonoBehaviour{
 
     public void EmitHit(Vector2 position) {
         hitPool.Spawn(position);
+    }
+
+    public void EmitExplosion(Vector2 position) {
+        explosionPool.Spawn(position);
     }
 }

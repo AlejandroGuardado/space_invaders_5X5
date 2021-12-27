@@ -34,7 +34,7 @@ public class Enemy : GameEntity {
     }
 
     public void Kill() {
-        PFXManager.Instance.EmitHit(transform.position);
+        PFXManager.Instance.EmitExplosion(transform.position);
         StartCoroutine(OnKill());
     }
 
@@ -48,7 +48,7 @@ public class Enemy : GameEntity {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (IsAlive) {
             currentHealth--;
-            Vector2 hitpoint = collision.ClosestPoint(transform.position);
+            Vector2 hitpoint = Vector2.Lerp(transform.position, collision.gameObject.transform.position, 0.5f);
             if (!IsAlive) {
                 Kill();
             }
