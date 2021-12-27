@@ -21,6 +21,7 @@ public class Player : GameEntity{
     private float moveVelocity;
     private float MAX_POSITION;
 
+    [HideInInspector]
     public UnityEvent<float> OnWeaponFired;
 
     private void Awake() {
