@@ -8,7 +8,7 @@ public class Player : GameEntity{
     public SessionData sessionData;
     public GameEntityDissolver dissolver;
     public PlayerInputActions input;
-    public PlayerGuns weapons;
+    public PlayerGunInventory weapons;
     public float speed;
     public float damping;
     public Vector2 maxScaleDistort;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGuns : MonoBehaviour{
+public class PlayerGunInventory : MonoBehaviour{
     public GunNormal normal;
     public GunNormal rapid;
     public GunTriple triple;
