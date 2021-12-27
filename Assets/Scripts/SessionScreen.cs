@@ -7,8 +7,11 @@ using UnityEngine.UI;
 public class SessionScreen : GameScreen{
     public Player player;
     public EnemyPool enemyPool;
+    public PowerupPool powerupPool;
     public GameObject scoreCanvas;
     public GameObject powerupCanvas;
+    public FillImage powerupFill;
+    public Text powerupName;
     public GameObject touchCanvas;
     public GameObject reloadCanvas;
     public FillImage reloadFill;
@@ -32,6 +35,9 @@ public class SessionScreen : GameScreen{
     public bool HasNextLevel { get { return LevelIndex_OneBased < sessionData.levels.Length; } }
     private List<LevelSpot> grid;
     private SessionState state;
+    private Coroutine reloadCoroutine;
+    private Coroutine showBonusCoroutine;
+    private Coroutine powerupCoroutine;
 
     public bool IsSessionActive {
         get {
@@ -81,19 +87,21 @@ public class SessionScreen : GameScreen{
         return 0f;
     }
 
-    /*
-    When game is over, you still see all remaining objects
-    Session should be cleared on game over screen
-    */
+    /// <summary>
+    /// When game is over, you still see all remaining objects
+    /// Session should be cleared on game over screen
+    /// </summary>
     public void Clear() {
         ClearGrid();
         player.Deactivate();
+        ClearPowerups();
         for (int i = 0; i < barriers.Length; i++) {
             barriers[i].Deactivate();
         }
         for (int i = 0; i < swapButtons.Length; i++) {
             swapButtons[i].OnRelease();
         }
+        StopAllCoroutines();
     }
 
     private void ClearGrid() {
@@ -115,6 +123,7 @@ public class SessionScreen : GameScreen{
         ClearUI();
         InitScore();
         enemyPool.Clear();
+        InitPowerups();
         LoadLevel();
         player.Spawn(new Vector2(0, sessionData.playerSpawnPosition));
         for (int i = 0; i < barriers.Length; i++) {
@@ -124,6 +133,7 @@ public class SessionScreen : GameScreen{
 
     private void StartGameplay() {
         state = SessionState.Active;
+        SetDefaultGunToPlayer();
         player.GainControl();
         player.OnWeaponFired.AddListener(OnWeaponFired);
         #if UNITY_ANDROID
@@ -131,10 +141,15 @@ public class SessionScreen : GameScreen{
         #endif
     }
 
+    private void SetDefaultGunToPlayer() {
+        player.gunInventory.SetGun(sessionData.defaultGun);
+    }
+
     private void StopGameplay() {
         player.OnWeaponFired.RemoveListener(OnWeaponFired);
-        player.weapons.Clear();
+        player.gunInventory.Clear();
         player.RemoveControl();
+        ClearPowerups();
         #if UNITY_ANDROID
         touchCanvas.SetActive(false);
         #endif
@@ -277,23 +292,24 @@ public class SessionScreen : GameScreen{
     private void OnEnemyKilled(Enemy enemy) {
         bool bonus = enemy.transform.position.y > sessionData.bonusPosition;
         if (bonus) {
-            StopCoroutine(ShowBonus());
-            StartCoroutine(ShowBonus());
+            if(showBonusCoroutine != null) StopCoroutine(showBonusCoroutine);
+            showBonusCoroutine = StartCoroutine(ShowBonus());
         }
         Score += enemy.Points * (bonus ? sessionData.bonusMultiplier : 1);
         UpdateScoreText();
         enemy.Kill();
+        powerupPool.Spawn(enemy.transform.position);
     }
 
     private void OnWeaponFired(float cooldown) {
-        StopCoroutine(HideReload(cooldown));
+        if(reloadCoroutine != null) StopCoroutine(reloadCoroutine);
         reloadCanvas.SetActive(true);
-        StartCoroutine(HideReload(cooldown));
+        reloadCoroutine = StartCoroutine(HideReload(cooldown));
 
         reloadFill.Fill(cooldown);
         fireButton.Fill(cooldown);
         for (int i = 0; i < barriers.Length; i++) {
-            barriers[i].Shockwave(sessionData.playerFireShockwaveTime);
+            barriers[i].Shockwave(sessionData.playerFireShockwaveDuration);
         }
 
         IEnumerator HideReload(float cooldown) {
@@ -322,6 +338,25 @@ public class SessionScreen : GameScreen{
         bonusText.enabled = false;
     }
 
+    private void InitPowerups() {
+        powerupPool.Init();
+        powerupPool.OnPickup += PowerupPool_OnPickup;
+    }
+
+    private void ClearPowerups() {
+        powerupPool.Clear();
+        powerupPool.OnPickup -= PowerupPool_OnPickup;
+        powerupFill.Clear();
+        powerupFill.image.color = Color.white;
+        powerupCanvas.SetActive(false);
+    }
+
+    private void PowerupPool_OnPickup(PowerupEventArgs args) {
+        player.gunInventory.SetGun(args.gun);
+        PFXManager.Instance.EmitPowerupPickup(args.position);
+        ShowPowerup(args);
+    }
+
     private void UpdateScoreText() {
         UpdateScoreText(scoreText, Score);
     }
@@ -329,7 +364,7 @@ public class SessionScreen : GameScreen{
     private IEnumerator ShowStartGame() {
         yield return new WaitForSeconds(sessionData.sessionStartGameImageDelay);
         startGameCanvas.SetActive(true);
-        yield return new WaitForSeconds(sessionData.sessionStartGameImageShowTime);
+        yield return new WaitForSeconds(sessionData.sessionStartGameImageShowDuration);
         startGameCanvas.SetActive(false);
     }
 
@@ -338,8 +373,26 @@ public class SessionScreen : GameScreen{
         bonusText.enabled = false;
         yield return new WaitForSeconds(0.1f);
         bonusText.enabled = true;
-        yield return new WaitForSeconds(sessionData.bonusTextShowTime);
+        yield return new WaitForSeconds(sessionData.bonusTextShowDuration);
         bonusText.enabled = false;
+    }
+
+    private void ShowPowerup(PowerupEventArgs args) {
+        if (powerupCoroutine != null) StopCoroutine(powerupCoroutine);
+        powerupFill.Clear();
+        powerupFill.Fill(args.duration);
+        powerupFill.image.color = args.color;
+        powerupName.text = args.name;
+        powerupCanvas.SetActive(true);
+        powerupCoroutine = StartCoroutine(HidePowerup(args.duration));
+
+        IEnumerator HidePowerup(float duration) {
+            yield return new WaitForSeconds(duration);
+            powerupCanvas.SetActive(false);
+            powerupFill.Clear();
+            powerupFill.image.color = Color.white;
+            SetDefaultGunToPlayer();
+        }
     }
 
     public static void UpdateScoreText(Text scoreText, float score) {
