@@ -41,6 +41,7 @@ Job interview game, made by Alejandro Guardado
   - Android version only.
   - Touch input for menu, movement and gun.
   - Fire button used as extra indicator to show reload progress.
+  >Bug: Sometimes, one of the arrow buttons gets stuck and the player ship moves by itself. I haven't found the cause yet.
 - Powerups
   - Powerup item may drop randomly after an enemy is destroyed.
   - Types
