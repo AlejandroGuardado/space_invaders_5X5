@@ -22,6 +22,6 @@ MonoBehaviour:
     - 3
     - 4.5
   repeat: 5
-  speed: 0.125
+  speed: 0.15
   redEnemiesNeeded: 4
   blueEnemiesNeeded: 7

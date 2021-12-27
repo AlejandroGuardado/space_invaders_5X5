@@ -50,8 +50,8 @@ MonoBehaviour:
   box: {fileID: 4211516685715165850}
   gun: 2
   name: TRIPLE SHOT
-  duration: 8
-  speed: 2
+  duration: 6
+  speed: 3
   color: {r: 0.97647065, g: 0.8745099, b: 0.6784314, a: 1}
   sessionData: {fileID: 11400000, guid: ac3f250255541654e9c199ff5cc07d83, type: 2}
 --- !u!212 &4211516685715165849
