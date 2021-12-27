@@ -7419,7 +7419,7 @@ MonoBehaviour:
   sessionScreen: {fileID: 570780421}
   victoryScreen: {fileID: 379383712}
   defeatScreen: {fileID: 379383711}
-  skip: 3
+  skip: 0
 --- !u!1 &865979538
 GameObject:
   m_ObjectHideFlags: 0
