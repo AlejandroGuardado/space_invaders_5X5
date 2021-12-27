@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PFXPool : MonoBehaviour{
-    public ParticleSystem test;
     public ParticleSystem[] particles;
     public int numberParticlePerEmit;
 

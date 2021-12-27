@@ -5,6 +5,7 @@ using UnityEngine;
 public class PFXManager : MonoBehaviour{
     public PFXPool hitPool;
     public PFXPool explosionPool;
+    public PFXPool powerupPickupPool;
 
     private static PFXManager _manager;
     public static PFXManager Instance {
@@ -26,5 +27,9 @@ public class PFXManager : MonoBehaviour{
 
     public void EmitExplosion(Vector2 position) {
         explosionPool.Spawn(position);
+    }
+
+    public void EmitPowerupPickup(Vector2 position) {
+        powerupPickupPool.Spawn(position);
     }
 }

@@ -105,7 +105,7 @@ MonoBehaviour:
   box: {fileID: -5631818844280605778}
   sessionData: {fileID: 11400000, guid: ac3f250255541654e9c199ff5cc07d83, type: 2}
   dissolver: {fileID: -6809028747852678115}
-  weapons: {fileID: -5022526781151866083}
+  gunInventory: {fileID: -5022526781151866083}
   speed: 0
   damping: 0
   maxScaleDistort: {x: 0, y: 0}
@@ -141,7 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal: {fileID: 0}
-  currentWeapon: 0
+  rapid: {fileID: 0}
+  triple: {fileID: 0}
+  currentGun: 0
 --- !u!61 &-5631818844280605778
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -166,7 +168,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8888889, y: 0.8888889}
+  m_Size: {x: 0.8, y: 0.5}
   m_EdgeRadius: 0
 --- !u!50 &-7230296194778737859
 Rigidbody2D:
