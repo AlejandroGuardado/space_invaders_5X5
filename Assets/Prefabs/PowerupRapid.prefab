@@ -49,7 +49,7 @@ MonoBehaviour:
   sprite: {fileID: 6460044173276168132}
   box: {fileID: 6460044173276168135}
   gun: 1
-  name: RAPID FIRE
+  gunName: RAPID FIRE
   duration: 4.5
   speed: 3
   color: {r: 0.87843144, g: 0.011764707, b: 0.41176474, a: 1}

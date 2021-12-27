@@ -5,7 +5,7 @@ using UnityEngine;
 public class Powerup : GameEntity{
     public BoxCollider2D box;
     public PlayerGun gun;
-    public string name;
+    public string gunName;
     public float duration;
     public float speed;
     public Color color;
@@ -42,6 +42,7 @@ public class Powerup : GameEntity{
             gun = gun,
             duration = duration,
             color = color,
+            name = gunName,
             position = transform.position
         });
         Deactivate();
