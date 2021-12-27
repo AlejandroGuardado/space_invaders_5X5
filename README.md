@@ -1,2 +1,50 @@
-# space_invaders_5X5
+# Space Invaders 5X5
 Job interview game, made by Alejandro Guardado
+
+## Features
+- Level Data
+  - Level layout and data loaded from ScriptableObjects.
+  - Positions are set for each line. Pattern can be repeated. 
+  - Enemies spawn after crossing a threshold.
+- Session Data
+  - Many gameplay variables can be changed in an ScriptableObject, improving game design iteration.
+- Pool management
+  - Instead of instancing objects on the fly, they're pooled and activated on demand.
+  - Same pool class used by several types of game entities, thanks to polymorphism and generics.
+    - Enemies
+    - Bullets
+    - Powerups
+- Events
+  - Unity and C# events used to communicate between modules, avoiding tight-coupling.
+- Screen FSM
+  - Finite State Machine used to control screen transitions.
+  - Skip feature for debugging purposes (editor mode only).
+- Custom Shaders
+  - Custom Materials for Sprite Renderer.
+  - Effects
+    - Transitions
+      - Transition effect between screens controlled by a Singleton manager.
+      - Cut and fade transitions.
+    - Dissolve effect
+      - Player and enemies "dissolve" when destroyed.
+      - GPU instancing, for dissolve cutoff animation.
+    - Barriers
+      - Hex pattern that reveals itself when the player approaches to show gameplay area bounds. Also, it changes color.
+      - GPU instancing, to calculate distance to player.
+	  - When player fires a gun, a "shockwave" expands barrier visibility.
+- Player animation
+  - Scale distort to improve feel of speed and force.
+  - Activated with movement and gunfire.
+- End screen
+  - Victory and Game Over screen based on the same abstract class, acting on the same UI Canvas.
+- Mobile Build
+  - Android version only.
+  - Touch input for menu, movement and gun.
+  - Fire button used as extra indicator to show reload progress.
+- Powerups
+  - Powerup item may drop randomly after an enemy is destroyed.
+  - Types
+    - Rapid Fire: Lower cooldown. Uses same class as the normal gun (only one value is different).
+    - Triple Shot: Three shots at once. Overrides routine to accomplish this.
+- Bonus
+  - Bonus points by destroying enemies before they reach an specified line (value set in Session Data).
