@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class PlayerGuns : MonoBehaviour{
     public GunNormal normal;
-    public PlayerGun currentWeapon;
+    public GunNormal rapid;
+    public GunTriple triple;
+    [SerializeField]
+    private PlayerGun currentGun;
 
-    //Returns cooldown
+    /// <summary>
+    /// Fire currently selected gun. Returns if it was able to fire.
+    /// </summary>
+    /// <param name="position">Muzzle position</param>
+    /// <param name="cooldown">How long it takes to fire again</param>
+    /// <returns></returns>
     public bool Fire(Vector2 position, out float cooldown) {
         bool fired = false;
-        switch (currentWeapon) {
+        switch (currentGun) {
             case PlayerGun.Normal:
                 cooldown = normal.Cooldown;
                 return normal.Fire(position);
+            case PlayerGun.Rapid:
+                cooldown = rapid.Cooldown;
+                return rapid.Fire(position);
             case PlayerGun.Triple:
-                //break;
-            case PlayerGun.Quick:
-                //break;
+                cooldown = triple.Cooldown;
+                return triple.Fire(position);
             default:
                 cooldown = 0f;
                 break;
@@ -24,13 +34,19 @@ public class PlayerGuns : MonoBehaviour{
         return fired;
     }
 
+    public void SetGun(PlayerGun gun) {
+        currentGun = gun;
+    }
+
     public void Clear() {
         normal.Clear();
+        rapid.Clear();
+        triple.Clear();
     }
 }
 
 public enum PlayerGun {
     Normal,
-    Triple,
-    Quick
+    Rapid,
+    Triple
 }
