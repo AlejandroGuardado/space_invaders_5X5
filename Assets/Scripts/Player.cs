@@ -42,6 +42,7 @@ public class Player : GameEntity{
     }
 
     public override void Activate() {
+        box.enabled = true;
         transform.localScale = Vector2.one;
         dissolver.Clear();
         base.Activate();
