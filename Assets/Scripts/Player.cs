@@ -8,7 +8,7 @@ public class Player : GameEntity{
     public SessionData sessionData;
     public GameEntityDissolver dissolver;
     public PlayerInputActions input;
-    public PlayerGunInventory weapons;
+    public PlayerGunInventory gunInventory;
     public float speed;
     public float damping;
     public Vector2 maxScaleDistort;
@@ -20,6 +20,7 @@ public class Player : GameEntity{
     private float currentMove;
     private float moveVelocity;
     private float MAX_POSITION;
+    private float shockwaveDuration;
 
     [HideInInspector]
     public UnityEvent<float> OnWeaponFired;
@@ -30,6 +31,7 @@ public class Player : GameEntity{
         input.Player.Move.canceled += _ => move = 0f;
         input.Player.Fire.performed += ctx => Fire();
         MAX_POSITION = sessionData.gridWidth > 0 ? sessionData.gridWidth / 2f : 0f;
+        shockwaveDuration = sessionData.playerFireShockwaveDuration;
     }
 
     private void Update() {
@@ -62,9 +64,9 @@ public class Player : GameEntity{
     }
 
     public void Fire() {
-        bool fire = weapons.Fire((Vector2)transform.position + weaponFireOffset, out float cooldown);
+        bool fire = gunInventory.Fire((Vector2)transform.position + weaponFireOffset, out float cooldown);
         if (!fire) return;
-        shockwave.CreateShockwave(sessionData.playerFireShockwaveTime);
+        shockwave.CreateShockwave(shockwaveDuration);
         OnWeaponFired.Invoke(cooldown);
     }
 
